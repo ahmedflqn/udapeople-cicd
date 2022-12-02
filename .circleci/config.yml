@@ -187,7 +187,7 @@ jobs:
             ansible-playbook .circleci/ansible/configure-server.yml -i .circleci/ansible/inventory.txt
   run-migrations: 
     docker:
-      - image: circleci/node:14.18.2-buster-browsers-legacy
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:

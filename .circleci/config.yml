@@ -225,7 +225,6 @@ jobs:
       - run:
           name: Install Node.js 13.8.0
           command: |
-            Install Node.js LTS version as our base Node.js version
             curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
             sudo apt install -y nodejs
             Use n version manager to use Node.js v13.8.0
@@ -274,7 +273,6 @@ jobs:
       - run:
           name: Install Node.js 13.8.0
           command: |
-            Install Node.js LTS version as our base Node.js version
             curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
             sudo apt install -y nodejs
             Use n version manager to use Node.js v13.8.0

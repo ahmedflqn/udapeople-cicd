@@ -361,24 +361,30 @@ jobs:
         
       - destroy-environment
       - revert-migrations  
-# cleanup:
-#     docker:
-#       # Docker image here
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Get old stack workflow id
-#           command: |
-#             # your code here
-#             export OldWorkflowID="the id here"
-#             export STACKS=[] #put the list of stacks here
-#       - run:
-#           name: Remove old stacks and files
-#           command: |
-#             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
-#             then
-#               # your code here
-#             fi
+cleanup: # createe cleanup
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Remove old stacks and files
+          command: |
+            yum install -y curl         
+            export OLDWORKFLOWID=$(curl --insecure https://kvdb.io/Up68KQvVZCMC32AM4i2mJR/old_workflow_id-2)
+            echo Old Workflow ID: $OLDWORKFLOWID 
+            echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
+            export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+            --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
+            echo Stack names: "${STACKS[@]}"          
+            if [[ udapeople-${WorkflowID} =~ ${OLDWORKFLOWID} ]]
+            then
+              aws s3 rm "s3://udapeople-${OLDWORKFLOWID}" --recursive
+              aws cloudformation delete-stack --stack-name "udapeople-backend-${OLDWORKFLOWID}"
+              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OLDWORKFLOWID}"
+              echo cleaning confirmed
+            else
+              echo cant clean
+            fi
             
 
 workflows:

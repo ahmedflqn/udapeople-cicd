@@ -145,7 +145,7 @@ jobs:
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
         
       - run:
-          name: Ensure Backend Infrastructure exists
+          name: create not working
           command: |  
             aws cloudformation describe-stack-events --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} 
       

@@ -129,7 +129,7 @@ jobs:
 
   deploy-infrastructure: # create deploy-infrastructure
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/aws:2022.06.1
     steps:
       - checkout
       - run:

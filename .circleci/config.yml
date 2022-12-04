@@ -135,7 +135,7 @@ jobs:
       - run:
           name: Install tar utility
           command: |
-            yum install -y tar gzip
+            sudo apt install -y tar gzip
       - run:
           name: Ensure Backend Infrastructure exists
           command: |

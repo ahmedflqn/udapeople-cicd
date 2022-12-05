@@ -311,13 +311,13 @@ jobs:
       - revert-migrations
   smoke-test:
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/base:stable
     steps:
       - checkout
       - run:
           name: "Install curl"
           command: |
-            yum install -y curl
+            apt install -y curl
       
       - run:
           name: back end smoke test

@@ -186,28 +186,41 @@ jobs:
           name: Configure server
           command: |
             ansible-playbook .circleci/ansible/configure-server.yml -i .circleci/ansible/inventory.txt
-  run-migrations: 
+  
+  run-migrations: # create run-migrations
     docker:
       - image: cimg/node:13.8.0
     steps:
       - checkout
+      - restore_cache:
+          keys: [backend-build]
+      - run: 
+          name: Install aws cli
+          command: |
+            #test
+            sudo apt-get update && sudo apt-get install -yy less
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install     
       - run:
           name: Run migrations
           command: |
-            cd backend
-            npm install
-            npm run migrations > migrations_dump.txt 
- 
+            cd backend 
+            npm install      
+            npm run migrations > migrations_dump.txt
+            cat migrations_dump.txt
       - run: 
           name: Send Migration Results to kvdb.io
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-              If you are using kvdb.io, generate the bucket ID "Up68KQvVZCMC32AM4i2mJR" in your local terminal first
+              # If you are using kvdb.io, generate the bucket ID "Up68KQvVZCMC32AM4i2mJR" in your local terminal first
               curl -d '1' https://kvdb.io/GAYvMRiwnAHenKsbLKCKot/migration_${CIRCLE_WORKFLOW_ID:0:7}  
             fi
       - revert-migrations
       - destroy-environment
+
+  
   deploy-frontend:
     docker:
       - image: cimg/aws:2022.06.1

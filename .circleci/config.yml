@@ -314,6 +314,17 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout   
+      
+      - run: 
+          name: Install aws cli
+          command: |
+            #test
+            sudo apt-get update && sudo apt-get install -yy less
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install     
+      
+      
       - run:
           name: back end smoke test
           command: |

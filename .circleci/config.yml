@@ -215,9 +215,17 @@ jobs:
   
   deploy-frontend:
     docker:
-      - image: cimg/aws:2022.06.1
+      - image: cimg/base:stable
     steps:
       - checkout
+      - run: 
+          name: Install aws cli
+          command: |
+            #test
+            sudo apt-get update && sudo apt-get install -yy less
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install     
       - restore_cache:
           keys: [frontend-build]
       - run:
@@ -256,7 +264,7 @@ jobs:
       - revert-migrations
   deploy-backend:
     docker:
-      - image: cimg/aws:2022.06.1
+      - image: cimg/base:stable
     steps:
       - checkout
       - restore_cache:

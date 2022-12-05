@@ -133,9 +133,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install tar utility
+          name: Install Tar since its a requesite 
           command: |
-            sudo apt install -y tar gzip
+            yum -y install tar gzip
       - run:
           name: Ensure Backend Infrastructure exists
           command: |
@@ -256,7 +256,7 @@ jobs:
       - revert-migrations
   deploy-backend:
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/aws:2022.06.1
     steps:
       - checkout
       - restore_cache:
@@ -315,9 +315,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install tar and gzip
+          name: "Install curl"
           command: |
-           sudo apt install -y tar gzip
+            yum install -y curl
       
       - run:
           name: back end smoke test

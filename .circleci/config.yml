@@ -129,7 +129,7 @@ jobs:
 
   deploy-infrastructure: # create deploy-infrastructure
     docker:
-      - image: cimg/aws:2022.06.1
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
@@ -256,7 +256,7 @@ jobs:
       - revert-migrations
   deploy-backend:
     docker:
-      - image: cimg/aws:2022.06.1
+      - image: amazon/aws-cli
     steps:
       - checkout
       - restore_cache:
@@ -311,7 +311,7 @@ jobs:
       - revert-migrations
   smoke-test:
     docker:
-      - image: cimg/aws:2022.06.1
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:

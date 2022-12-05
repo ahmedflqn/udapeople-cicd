@@ -215,7 +215,7 @@ jobs:
   
   deploy-frontend:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/python:3.10
     steps:
       - checkout
       - run: 
@@ -264,7 +264,7 @@ jobs:
       - revert-migrations
   deploy-backend:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/python:3.10
     steps:
       - checkout
       - restore_cache:

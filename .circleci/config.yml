@@ -313,12 +313,7 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
-      - checkout
-      - run:
-          name: "Install curl"
-          command: |
-            apt install -y curl
-      
+      - checkout   
       - run:
           name: back end smoke test
           command: |

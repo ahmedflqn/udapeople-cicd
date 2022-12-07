@@ -135,7 +135,7 @@ jobs:
       - run:
           name: Install Tar since its a requesite 
           command: |
-            yum -y install tar gzip
+            sudo apt install -y tar gzip
       - run: 
           name: Install aws cli
           command: |
@@ -406,7 +406,6 @@ jobs:
       - run:
           name: Save old Workflow ID to kvdb.io
           command: |
-            yum install -y curl
             export OLD_WORKFLOW_ID=$(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --no-paginate --output text)
             echo "Old Wokflow ID: $OLD_WORKFLOW_ID"
             curl https://kvdb.io/GAYvMRiwnAHenKsbLKCKot/old_workflow_id-2 -d "${CIRCLE_WORKFLOW_ID:0:7}"

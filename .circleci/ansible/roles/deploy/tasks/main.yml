@@ -15,7 +15,7 @@
     cd /home/ubuntu/backend-artifact
     npm i
     
-- name: "Executing ode app with PM2"
+- name: "Executing ode app with PM"
   shell: |
     cd /home/ubuntu/backend-artifact/dist
     pm2 stop default

@@ -129,13 +129,21 @@ jobs:
 
   deploy-infrastructure: # create deploy-infrastructure
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/base:stable
     steps:
       - checkout
       - run:
           name: Install Tar since its a requesite 
           command: |
             yum -y install tar gzip
+      - run: 
+          name: Install aws cli
+          command: |
+            #test
+            sudo apt-get update && sudo apt-get install -yy less
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install    
       - run:
           name: Ensure Backend Infrastructure exists
           command: |
@@ -377,9 +385,24 @@ jobs:
       - revert-migrations  
   cloudfront-update: 
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/base:stable
     steps:
       - checkout
+      - run:
+          name: Install Node.js 13.8.0
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+            sudo apt install -y nodejs
+            sudo npm install --global n
+            sudo n 13.8.0
+      - run: 
+          name: Install aws cli
+          command: |
+            #test
+            sudo apt-get update && sudo apt-get install -yy less
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install    
       - run:
           name: Save old Workflow ID to kvdb.io
           command: |
@@ -399,19 +422,36 @@ jobs:
       - revert-migrations  
   cleanup: 
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/base:stable
     steps:
+      
       - checkout
       - run:
-          name: Remove old stacks and files
+          name: Install Node.js 13.8.0
           command: |
-            yum install -y curl         
-            export OLDWORKFLOWID=$(curl --insecure https://kvdb.io/Up68KQvVZCMC32AM4i2mJR/old_workflow_id-2)
+            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+            sudo apt install -y nodejs
+            sudo npm install --global n
+            sudo n 13.8.0
+      - run: 
+          name: Install aws cli
+          command: |
+            #test
+            sudo apt-get update && sudo apt-get install -yy less
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install    
+      - run:
+          name: Remove old stacks and files
+          command: |         
+            export OLDWORKFLOWID=$(curl --insecure https://kvdb.io/GAYvMRiwnAHenKsbLKCKot/old_workflow_id-2)
+            
             echo Old Workflow ID: $OLDWORKFLOWID 
             echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
             export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
             --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
             echo Stack names: "${STACKS[@]}"          
+            
             if [[ udapeople-${WorkflowID} =~ ${OLDWORKFLOWID} ]]
             then
               aws s3 rm "s3://udapeople-${OLDWORKFLOWID}" --recursive

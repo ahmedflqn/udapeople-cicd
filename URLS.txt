@@ -1,4 +1,4 @@
 1-URL01 github : https://github.com/ahmedflqn/udapeople-cicd.git
-2-URL02 S3 FRONTEND : http://udapeople-fdede31.s3.amazonaws.com/index.html#/employees
-3-URL03 cloudfront : https://d3b95qa05n39ro.cloudfront.net/#/employees
-4-URL04 Backend end point : http://3.90.64.247:3030/api/status
+2-URL02 S3 FRONTEND : http://udapeople-fc7bb59.s3-website-us-east-1.amazonaws.com/#/employees
+3-URL03 cloudfront : http://d20y1s8waykfzs.cloudfront.net/#/employees
+4-URL04 Backend end point :  http://52.91.245.41:3030/api/status
